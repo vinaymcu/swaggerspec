@@ -1,0 +1,105 @@
+swagger: "2.0"
+info:
+  description: "The Direct Deposit Allocations endpoint returns the current direct deposit allocations configured for the specified account.."
+  version: "2.0.0"
+  title: "Get Direct Deposit Allocations"
+host: "api.getpinwheel.com"
+basePath: "/v1"
+schemes:
+- "https"
+- "http"
+paths:
+  /accounts/{account_id}/direct_deposit_allocations:
+    get:
+      tags:
+      - "Account"
+      operationId: "getAccountId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "account_id"
+        in: "path"
+        description: "ID of account to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Account"
+        "400":
+          description: "Invalid account id supplied"
+        "404":
+          description: "Account not found"
+definitions:
+  Allocations:
+    type: "object"
+    properties:
+      account_name:
+        type: "string"
+        example: "My Checking Account"
+      account_type:
+        type: "string"
+        enum:
+          - "checking"
+          - "debit_card"
+          - "pay_card"
+          - "savings"
+      allocation_type:
+        type: "string"
+        enum:
+          - "amount"
+          - "percentage"
+          - "remainder"
+      amount:
+        type: "integer"
+        format: "int64"
+        example: 10000
+      bank_name:
+        type: "string"
+        example: "Chase"
+      currency:
+        type: "string"
+        example: "USD"
+      masked_account_number:
+        type: "integer"
+        format: "int64"
+        example: 53
+      percentage:
+        type: "integer"
+        example: null
+      priority: 
+        type: "integer"
+        example: 1
+      routing_number:
+        type: "integer"
+        format: "int64"
+        example: "540622601"
+    xml:
+      name: "Allocations"
+  Account:
+    type: "object"
+    properties:
+      account_id:
+        type: "string"
+        format: "int64"
+        example: "c0a343a6-4e33-49cf-9bfc-46f770709452"
+      allocations:
+        type: "array"
+        xml:
+          name: "tag"
+          wrapped: true
+        items:
+          $ref: "#/definitions/Allocations"
+      created_at: 
+        type: "object"
+        example: "2021-01-06T00:00:00.000000+00:00"
+      id:
+        type: "string"
+        example: "07814454-9163-40b5-9aaa-8a738fa7080b"
+      updated_at:
+        type: "object"
+        example: "2021-01-12T00:00:00.000000+00:00"
+    xml:
+      name: "Account"
