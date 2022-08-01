@@ -19,3 +19,22 @@ public class AccountControllerTest {
         System.out.println(" responseEntity>>>"+responseEntity);
 
     }
+
+    
+    server:
+  servlet:
+    context-path: /myapp
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mydb3
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      #ddl-auto: create
+      #generate-ddl: true
+      show-sql: true
+  #h2:
+    #console.enabled: true
